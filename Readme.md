@@ -1,3 +1,4 @@
+
 # Softmax and Kernel Fusion using CUDA
 
 ## 1. Project Overview
@@ -10,7 +11,16 @@ This project implements and compares softmax using a CPU reference and two CUDA 
 
 The goal is to demonstrate how **kernel fusion** can improve GPU performance by reducing kernel-launch overhead and intermediate data movement.
 
-## 2. What Is Softmax?
+## 2. Team Members
+
+| Name | USN |
+|---|---|
+| Abhijit R H | 01FE25BCI709 |
+| Sagar P M | 01FE25BCI712 |
+| Chaitra V | 01FE25BCI706 |
+| Ishani Goudar | 01FE22BCI009 |
+
+## 3. What Is Softmax?
 
 Softmax converts a vector of values into a probability distribution. Each output value is between 0 and 1, and the values in a row sum to approximately 1.
 
@@ -31,7 +41,7 @@ For numerical stability, this project subtracts the maximum value in each row be
 
 Subtracting the same maximum from every value in a row does not change the resulting probabilities, but it helps avoid excessively large exponentials.
 
-## 3. What Is Kernel Fusion?
+## 4. What Is Kernel Fusion?
 
 A CUDA kernel is a function that runs on the GPU. Launching a kernel has overhead, and intermediate results may need to be written to and read from GPU memory.
 
@@ -45,7 +55,7 @@ In this experiment, the unfused implementation uses three kernels:
 
 The fused implementation performs these stages inside one kernel launch. It uses shared memory to reduce values across the threads in a block.
 
-## 4. Project Structure
+## 5. Project Structure
 
 ```text
 softmax-kernel-fusion/
@@ -67,7 +77,7 @@ softmax-kernel-fusion/
 - `graphs/` stores the generated visualizations.
 - `README.md` documents the project and how to run it.
 
-## 5. Experiment Setup
+## 6. Experiment Setup
 
 | Setting | Value |
 |---|---|
@@ -79,7 +89,7 @@ softmax-kernel-fusion/
 
 Each row is processed independently. The CUDA implementation launches one thread block per row, with 256 threads per block. Threads process multiple columns when the row has more elements than the block has threads.
 
-## 6. Implementation Details
+## 7. Implementation Details
 
 ### CPU reference
 
@@ -120,7 +130,7 @@ Within the kernel, threads first reduce their values to find the row maximum, th
 
 The fused kernel avoids separate launches for the intermediate stages. The maximum and sum are reduced using shared memory within the thread block.
 
-## 7. Build and Run
+## 8. Build and Run
 
 Run these commands from the project root in the **x64 Native Tools Command Prompt for Visual Studio**.
 
@@ -148,7 +158,7 @@ python scripts\create_graph.py
 
 This runs the Python graph-generation script. Run it from the directory containing `results.csv`, or configure the script to read the CSV from `results/`.
 
-## 8. Experimental Results
+## 9. Experimental Results
 
 The following measurements were obtained for an input of 4096 × 1024:
 
@@ -189,7 +199,7 @@ The fused version was approximately **32.4% faster** than the unfused version in
 
 The fused GPU time was also approximately **127× lower** than the CPU time for this particular input and implementation. This CPU/GPU comparison is specific to this experiment and should not be treated as a universal performance ratio.
 
-## 9. Correctness Check
+## 10. Correctness Check
 
 The program compares the GPU outputs with the CPU reference by calculating the maximum absolute difference:
 
@@ -199,7 +209,7 @@ The program compares the GPU outputs with the CPU reference by calculating the m
 
 The displayed maximum absolute error was `0.000000` for both GPU implementations. This means the differences were zero at the precision printed by the program; it does not necessarily mean the underlying floating-point values are bit-for-bit identical.
 
-## 10. Conclusion
+## 11. Conclusion
 
 This experiment demonstrates that kernel fusion can improve softmax performance by reducing the number of CUDA kernel launches and avoiding separate intermediate-result buffers for the row maximum and exponential sum.
 
@@ -207,7 +217,7 @@ For the tested input, the fused implementation improved GPU execution time from 
 
 The result comes from a single run. GPU timings can vary with system load, clock behavior, and other conditions, so repeated runs and median timings would provide a more reliable performance comparison.
 
-## 11. Technologies Used
+## 12. Technologies Used
 
 - CUDA C++ for GPU programming
 - NVIDIA CUDA Toolkit for compilation
