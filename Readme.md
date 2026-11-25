@@ -26,18 +26,18 @@ Softmax converts a vector of values into a probability distribution. Each output
 
 For an input vector \(x\), softmax is defined as:
 
-\[
+$$
 \operatorname{softmax}(x_i)=
 \frac{e^{x_i}}{\sum_j e^{x_j}}
-\]
+$$
 
 For numerical stability, this project subtracts the maximum value in each row before calculating the exponentials:
 
-\[
+$$
 \operatorname{softmax}(x_i)=
 \frac{e^{x_i-m}}{\sum_j e^{x_j-m}},
 \qquad m=\max_j(x_j)
-\]
+$$
 
 Subtracting the same maximum from every value in a row does not change the resulting probabilities, but it helps avoid excessively large exponentials.
 
@@ -186,14 +186,14 @@ The fused GPU implementation took **0.847872 ms**, compared with **1.254400 ms**
 
 The measured fusion speedup is:
 
-\[
+$$
 \text{Fusion speedup}
 =
 \frac{\text{Unfused GPU time}}{\text{Fused GPU time}}
 =
 \frac{1.254400}{0.847872}
 \approx 1.48\times
-\]
+$$
 
 The fused version was approximately **32.4% faster** than the unfused version in this run.
 
@@ -203,9 +203,9 @@ The fused GPU time was also approximately **127× lower** than the CPU time for 
 
 The program compares the GPU outputs with the CPU reference by calculating the maximum absolute difference:
 
-\[
-\max_i |y_i^{GPU}-y_i^{CPU}|
-\]
+$$
+\max_i \left|y_i^{GPU}-y_i^{CPU}\right|
+$$
 
 The displayed maximum absolute error was `0.000000` for both GPU implementations. This means the differences were zero at the precision printed by the program; it does not necessarily mean the underlying floating-point values are bit-for-bit identical.
 
